@@ -8,21 +8,33 @@ def cantidadRecetas(ruta):
         cantidad += 1
     return cantidad
 
-#Mostrar categorias
+# Mostrar categorias
 def showCate(ruta):
-    directorio = os.scandir(ruta)
-    print("Tienes estas categorias: ")
-    for categoria in directorio:
-        print(f"- {categoria.name}")
-    print("¿Que categoria eliges?")
+    directorio = list(os.scandir(ruta))
+    if not directorio:
+        print("No tienes recetas en el archivo")
+        return False
+    else:
+        print("Tienes estas categorias: ")
+        for categoria in directorio:
+            if categoria.is_dir():
+                print(f"- {categoria.name}")
+        print("¿Qué categoría eliges?")
+        return True
 
-#Mostrar recetas
+# Mostrar recetas
 def showRecet(ruta):
-    directorio = os.scandir(ruta)
-    print("Tienes estas recetas: ")
-    for categoria in directorio:
-        print(f"- {categoria.name}")
-    print("¿Que recetas eliges?")
+    directorio = list(os.scandir(ruta))
+    if not directorio:
+        print("No tienes recetas en el archivo")
+        return False
+    else:
+        print("Tienes estas recetas: ")
+        for receta in directorio:
+            if receta.is_file() and receta.name.endswith(".txt"):
+                print(f"- {receta.name[:-4]}")
+        print("¿Qué receta eliges?")
+        return True
 
 
 #Validar ¿Existe esa categoria?
@@ -73,12 +85,11 @@ def showElement(ruta):
     opcion = input("Ingrese el nombre de la categoria: ")
     nuevoDirectorio = os.path.join(ruta, opcion)
     if validCate(ruta, opcion):
-        showRecet(nuevoDirectorio)
+        if not showRecet(nuevoDirectorio):
+            return  # Volvemos al menú si no hay recetas
         ver = input("Ingrese el nombre de la receta que desea leer: ")
-        if validRecet(nuevoDirectorio,ver,1):
-            return
-        else:
-            print("No se encontro dicha receta.")
+        if not validRecet(nuevoDirectorio, ver, 1):
+            print("No se encontró dicha receta.")
             return showElement(ruta)
     else:
         print("No se encontro dicha categoria.")
