@@ -1,6 +1,8 @@
 import os
 
-#Cantidad de carpetas en dicha carpeta de Recetas
+# Cantidad de carpetas en dicha carpeta de Recetas
+
+
 def cantidadRecetas(ruta):
     directorio = os.scandir(ruta)
     cantidad = 0
@@ -9,6 +11,8 @@ def cantidadRecetas(ruta):
     return cantidad
 
 # Mostrar categorias
+
+
 def showCate(ruta):
     directorio = list(os.scandir(ruta))
     if not directorio:
@@ -23,6 +27,8 @@ def showCate(ruta):
         return True
 
 # Mostrar recetas
+
+
 def showRecet(ruta):
     directorio = list(os.scandir(ruta))
     if not directorio:
@@ -37,7 +43,7 @@ def showRecet(ruta):
         return True
 
 
-#Validar ¿Existe esa categoria?
+# Validar ¿Existe esa categoria?
 def validCate(direct, categoria):
     directorio = os.scandir(direct)
     for archivo in directorio:
@@ -45,13 +51,16 @@ def validCate(direct, categoria):
             return True
     return False
 
-#Validar ¿Existe esa receta?
-def validRecet(direct,receta,eleccion):
+# Validar ¿Existe esa receta?
+
+
+def validRecet(direct, receta, eleccion):
     directorio = os.scandir(direct)
     if eleccion == 1:
         for archivo in directorio:
             if (receta + ".txt" == archivo.name):
-                abrir_leer(os.path.join(direct, archivo.name))  # Pasar la ruta completa a abrir_leer
+                # Pasar la ruta completa a abrir_leer
+                abrir_leer(os.path.join(direct, archivo.name))
                 return True
         return False
     else:
@@ -62,25 +71,31 @@ def validRecet(direct,receta,eleccion):
         return False
 
 
-#Leer archivos
+# Leer archivos
 def abrir_leer(archivo):
-    with open(archivo, "r") as contenido: #Garantiza que se cierre el archivo
+    with open(archivo, "r") as contenido:  # Garantiza que se cierre el archivo
         print(contenido.read())
 
-#Crear archivo para la receta
+# Crear archivo para la receta
+
+
 def crearRecet(archivo):
-    with open(archivo, "x") as contenido: #Garantiza que se cierre el archivo
+    with open(archivo, "x") as contenido:  # Garantiza que se cierre el archivo
         print(contenido.read())
 
-#Escribir en el documento
+# Escribir en el documento
+
+
 def escribirDoc(archivo):
-    with open(archivo,"a") as contenido:
+    with open(archivo, "a") as contenido:
         print("Ingrese las indicaciones de dicha receta")
         texto = input()
         contenido.write(texto)
         return contenido
 
-#Leer recetas
+# Leer recetas
+
+
 def showElement(ruta):
     opcion = input("Ingrese el nombre de la categoria: ")
     nuevoDirectorio = os.path.join(ruta, opcion)
@@ -95,13 +110,16 @@ def showElement(ruta):
         print("No se encontro dicha categoria.")
         return showElement(ruta)
 
-#Desarrollando la opcion 2
-#Crear receta
+# Desarrollando la opcion 2
+# Crear receta
+
+
 def crearReceta(ruta):
     opcion = input("Ingrese el nombre de la categoria: ")
     nuevoDirectorio = os.path.join(ruta, opcion)
     if validCate(ruta, opcion):
-        nombreReceta = input(f"Ingrese el nombre de la nueva receta para la categoria {opcion}: ")
+        nombreReceta = input(
+            f"Ingrese el nombre de la nueva receta para la categoria {opcion}: ")
         recetaNuevaArch = os.path.join(nuevoDirectorio, nombreReceta + ".txt")
         escribirDoc(recetaNuevaArch)
         abrir_leer(recetaNuevaArch)
@@ -110,19 +128,23 @@ def crearReceta(ruta):
         print("Ingrese una categoria correcta")
         return
 
-#Desarrollando la opcion 3
-#Crear categoria
+# Desarrollando la opcion 3
+# Crear categoria
+
+
 def crearCategoria(ruta):
     opcion = input("Ingrese el nombre de la categoria: ")
     nuevaCategoria = os.path.join(ruta, opcion)
-    if not validCate(ruta,opcion):
+    if not validCate(ruta, opcion):
         os.makedirs(nuevaCategoria)
         print("Nueva categoria creada")
     else:
         print("Ya existe dicha categoria")
         return
 
-#Eliminar receta
+# Eliminar receta
+
+
 def deletRecet(ruta):
     opcion = input("Ingrese el nombre de la categoria: ")
     categoriaSelec = os.path.join(ruta, opcion)
@@ -138,7 +160,9 @@ def deletRecet(ruta):
     else:
         print("No se encontro dicha categoria.")
         return showElement(ruta)
-#Eliminar categoria
+# Eliminar categoria
+
+
 def deletCate(ruta):
     opcion = input("Ingresa la categoria que desea eliminar: ")
     nuevoDirectorio = os.path.join(ruta, opcion)
@@ -148,7 +172,9 @@ def deletCate(ruta):
     else:
         print("No existe esa categoria o fue eliminada con anterioridad")
         return
-#Menu para acceder a las recetas
+# Menu para acceder a las recetas
+
+
 def menuRecetas(opcion, ruta):
     match opcion:
         case 1:
@@ -177,7 +203,9 @@ def menuRecetas(opcion, ruta):
         case _:
             print("Seleccione una opcion valida!")
 
-#Eleccion usuario
+# Eleccion usuario
+
+
 def interactUser(ruta):
     while True:
         try:
@@ -191,15 +219,13 @@ def interactUser(ruta):
 
 
 print("Bienvenido usuario")
-#Informar la ruta de acceso al directorio donde se encuentra nuestra carpeta de recetas
-rutaRecetas = "M:\\Programas en Python\\Python\\Día 6\\Recetas"
+# Informar la ruta de acceso al directorio donde se encuentra nuestra carpeta de recetas
+rutaRecetas = "./Recetas/"
 
 print(f"Te comento que la carpeta de recetas se encuentra en: {rutaRecetas}")
 
 numReceta = cantidadRecetas(rutaRecetas)
 print(f"La cantidad de recetas: {numReceta}")
 
-#Para interactuar con el usuario
+# Para interactuar con el usuario
 interactUser(rutaRecetas)
-
-
